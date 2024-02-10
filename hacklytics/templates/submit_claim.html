@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Claim</title>
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+        <div class="container">
+            <h1>Submit Your Claim</h1>
+            <form action="/submit-claim" method="post" enctype="multipart/form-data">
+                <!-- Form fields for claim submission -->
+                <label for="policyNumber">Policy Number:</label>
+                <input type="text" id="policyNumber" name="policyNumber" required>
+                
+                <label for="description">Description of Damage:</label>
+                <textarea id="description" name="description" required></textarea>
+                
+                <label for="images">Upload Images of Damage:</label>
+                <input type="file" id="images" name="images" multiple required>
+                
+                <input type="submit" value="Submit Claim">
+            </form>
+        </div>
+    {% else %}
+        <p>You must be <a href="{{ url_for('login') }}">logged in</a> to submit a claim.</p>
+    {% endif %}
+</body>
+</html>

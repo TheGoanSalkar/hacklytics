@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Claim Submission Viewer</title>
+</head>
+<body>
+    <h1>Claim Submission Details</h1>
+    <p><b>Policy Number:</b> {{ policy_number }}</p>
+    <p><b>Description of Damage:</b> {{ description }}</p>
+    <h2>Uploaded Images</h2>
+    {% for filename in filenames %}
+        <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Uploaded Image" style="width: 200px;">
+    {% else %}
+        <p>No images uploaded.</p>
+    {% endfor %}
+</body>
+</html>
