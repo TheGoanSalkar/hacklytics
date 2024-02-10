@@ -1,1 +1,3 @@
-OPENAI_KEY = "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"
+import os
+
+OPENAI_KEY = os.environ.get('OPENAI_KEY')
