@@ -1,5 +1,5 @@
 import openai
-from ..settings import OPENAI_KEY
+from ..settings import client
 from .prompt_response import PromptResponse
 from string import Template
 from .prompt_constants import FIRE_ANSWER, FIRE_TEXT, PROMPT_MESSAGE, TORNADO_TEXT, TORNADO_ANSWER, FLOOD_ANSWER, FLOOD_TEXT, TREE_ANSWER, TREE_TEXT
