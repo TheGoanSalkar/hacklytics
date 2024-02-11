@@ -80,12 +80,11 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    # Some logic to determine if the user is authenticated
-    return render_template('index.html', current_user=current_user)
+    return render_template('index2.html')
 
 @app.route('/home')  # If you decide to add a home route distinct from index
 def home():
-    return render_template('index.html')  # Assuming you have a home.html template
+    return render_template('index2.html')  # Assuming you have a home.html template
 
 @app.route('/claims')
 def claims():
