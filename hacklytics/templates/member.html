@@ -14,27 +14,53 @@
         padding: 0;
     }
     .navbar {
-        background-color: #004880;
-        padding: 10px 0;
-        color: white;
-        text-align: center;
-    }
-    .nav-button {
-        background: none;
-        border: 1px solid white;
-        color: white;
-        padding: 10px 20px;
-        margin: 0 10px;
-        font-size: 18px;
-        text-decoration: none;
-        display: inline-block;
-        transition: background-color 0.3s, border-color 0.3s;
-    }
-    .nav-button:hover {
-        background-color: white;
-        color: #004880;
-        border-color: #004880;
-    }
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #004880;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+  font-size: 20px;
+}
+
+.navbar-nav {
+  display: flex;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #fff;
+  margin-left: 20px;
+  padding: 5px 10px;
+  border: 1px solid transparent; /* Add for visual effect on hover */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.nav-item:hover {
+  background-color: #555;
+  border-color: #ddd;
+}
+        .nav-button {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: white;
+            color: #004880;
+            border-color: #004880;
+        }
     .container {
         padding: 20px;
         max-width: 800px;
@@ -82,11 +108,13 @@
 <body>
     <div class="navbar">
 
-       
-        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
-        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
-        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
-        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+        <div class="navbar-brand">PropertyManager.ai</div>
+        <div class="navbar-nav">
+            <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+            <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+            <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+            <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+        </div>
     </div>
     <h2>Welcome, {{ current_user.username }}</h2>
     <p>This is the member page.</p>

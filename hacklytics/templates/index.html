@@ -34,19 +34,52 @@
             padding: 0;
         }
         .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background-color: #004880;
             padding: 10px 0;
             color: white;
             text-align: center;
+            padding: 10px 20px;
         }
-        .navbar button {
+
+        .navbar-brand {
+  font-size: 20px;
+}
+
+.navbar-nav {
+  display: flex;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #fff;
+  margin-left: 20px;
+  padding: 5px 10px;
+  border: 1px solid transparent; /* Add for visual effect on hover */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.nav-item:hover {
+  background-color: #555;
+  border-color: #ddd;
+}
+        .nav-button {
             background: none;
-            border: none;
+            border: 1px solid white;
             color: white;
             padding: 10px 20px;
             margin: 0 10px;
             font-size: 18px;
-            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: white;
+            color: #004880;
+            border-color: #004880;
         }
         .container {
             padding: 20px;
@@ -82,26 +115,27 @@
         }
     </style>
 </head>
-<body>
+<body >
     <div class="navbar">
-        <!-- Navigation buttons -->
 
-       
+        <div class="navbar-brand">PropertyManager.ai
+        </div>
+        <div class="navbar-nav">
             <a href="{{ url_for('index') }}" class="nav-button">Home</a>
             <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
             <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
             <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
         </div>
+    </div>
     
     <div class="container">
         <h1>                PropertyManager.ai</h1>
 
-        <head>
-            <!-- Required meta tags -->
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>Flask Auth Repo</title>
-        </head>
+        <div style="padding: 2em;"> 
+            Welcome to PropertyManager.ai. We are an AI company that specializes in insurance claims for properties. We are here to help you with your insurance claims.
+            Our technology uses multimodal generative AI to process your claims and provide you with the best possible outcome, and also gives you suggestions
+            on how to improve your property to prevent future claims. We are here to help you with your insurance claims.
+        </div>
         <body style="background: beige; min-height: 100vh">
             {% include "includes/_navbar.html" %}
             <center>

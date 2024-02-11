@@ -12,11 +12,37 @@
             padding: 0;
         }
         .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background-color: #004880;
             padding: 10px 0;
             color: white;
             text-align: center;
+            padding: 10px 20px;
         }
+
+        .navbar-brand {
+  font-size: 20px;
+}
+
+.navbar-nav {
+  display: flex;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #fff;
+  margin-left: 20px;
+  padding: 5px 10px;
+  border: 1px solid transparent; /* Add for visual effect on hover */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.nav-item:hover {
+  background-color: #555;
+  border-color: #ddd;
+}
         .nav-button {
             background: none;
             border: 1px solid white;
@@ -83,10 +109,14 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
-        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
-        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
-        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+
+        <div class="navbar-brand">PropertyManager.ai</div>
+        <div class="navbar-nav">
+            <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+            <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+            <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+            <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+        </div>
     </div>
 
     <div class="container">
@@ -103,7 +133,7 @@
             <a href="{{ url_for('logout') }}" class="button-link">Logout</a>
         </div>
     </div>
-
+<!-- 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,21 +143,21 @@
     <h2>Welcome, {{ current_user.username }}</h2>
     <p>This is the member page. Here you can manage your account and claims.</p>
 
-    <!-- Profile Information -->
+    
     <p>Email: {{ current_user.email }}</p>
 
-    <!-- Navigation Links -->
+   
     <a href="{{ url_for('submit_claim') }}">Submit a New Claim</a><br>
     <a href="{{ url_for('logout') }}" method="post">Logout</a>
 
         <div>
-            <!-- Button-styled Link -->
+           
             <a href="{{ url_for('submit_claim') }}" class="button-link">Submit a New Claim</a>
-            <!-- Button-styled Link for Viewing All Claims -->
+            
             <a href="{{ url_for('view_all_claims') }}" class="button-link">View All Claims</a>
-            <!-- Logout Form -->
+            
             <a href="{{ url_for('logout') }}" class="button-link">Logout</a>
         </div>
     </div>
-</body>
+</body> -->
 </html>

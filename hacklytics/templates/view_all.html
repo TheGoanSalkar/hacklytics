@@ -12,11 +12,37 @@
             padding: 0;
         }
         .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background-color: #004880;
             padding: 10px 0;
             color: white;
             text-align: center;
+            padding: 10px 20px;
         }
+
+        .navbar-brand {
+  font-size: 20px;
+}
+
+.navbar-nav {
+  display: flex;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #fff;
+  margin-left: 20px;
+  padding: 5px 10px;
+  border: 1px solid transparent; /* Add for visual effect on hover */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.nav-item:hover {
+  background-color: #555;
+  border-color: #ddd;
+}
         .nav-button {
             background: none;
             border: 1px solid white;
@@ -104,10 +130,14 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
-        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
-        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
-        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+
+        <div class="navbar-brand">PropertyManager.ai</div>
+        <div class="navbar-nav">
+            <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+            <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+            <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+            <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+        </div>
     </div>
     <div class="container">
         <h1>All Claims Made By User</h1>
@@ -116,10 +146,16 @@
                     <li>
                         <strong>Policy Number:</strong> {{ claim.policy_number }}<br>
                         <strong>Description:</strong> {{ claim.description }}<br>
-                        <strong>Images:</strong>
+                        <strong>Images:<br></strong>
                         {% for image in claim.images %}
                             <img src="{{ url_for('static', filename='uploads/' + image.filename) }}" alt="Uploaded Image" style="width: 200px;">
                         {% endfor %}
+
+                        <details>
+                            <summary>Overall Health</summary>
+                            <p>{{ sol[(claim.id, userId)]['overall_health'] }}</p>
+                        </details>
+                        
                         <details>
                             <summary>Immediate Issues</summary>
                             <p>{{ sol[(claim.id, userId)]['immediate_issues'] }}</p>
@@ -138,6 +174,11 @@
                         <details>
                             <summary>Longterm Issue Fixes</summary>
                             <p>{{ sol[(claim.id, userId)]['longterm_issue_fixes'] }}</p>
+                        </details>
+
+                        <details>
+                            <summary>Top Three Recommendations</summary>
+                            <p>{{ sol[(claim.id, userId)]['top_three_recommendations'] }}</p>
                         </details>
                     </li>
                 {% else %}

@@ -105,10 +105,14 @@
 <body>
 
     <div class="navbar">
-        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
-        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
-        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
-        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+
+        <div class="navbar-brand">PropertyManager.ai</div>
+        <div class="navbar-nav">
+            <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+            <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+            <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+            <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+        </div>
     </div>
     <div class="container">
         <h1>Claim Submission Details</h1>
@@ -122,42 +126,7 @@
         {% else %}
             <p>No images uploaded.</p>
         {% endif %}
-        
-
-       
-            <a href="{{ url_for('index') }}" class="nav-button">Home</a>
-            <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
-            <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
-            <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
         </div>
-
-<head>
-    <meta charset="UTF-8">
-    <title>Claim Submission Viewer</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Claim Submission Details</h1>
-    <p><b>Policy Number:</b> {{ claim.policy_number }}</p>
-    <p><b>Description of Damage:</b> {{ claim.description }}</p>
-    <h2>Uploaded Images</h2>
-    <div class="container">
-        <div class="row">
-            {% if filenames %}
-        {% for filename in filenames %}
-        <div class="column">
-            <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Uploaded Image" style="width: 100%;">
-        </div>
-        {% endfor %}
-    {% else %}
-        <p>No images uploaded.</p>
-    {% endif %}
-            
-        </div>
-
-    </div>
-    
-    </div>
 
     <div class="prompt-response container">
         <h2>Overall Health of the House</h2>
@@ -175,63 +144,5 @@
     </div>
     
 </body>
-
-<script>
-    function validateForm() {
-       var images = document.getElementById('images').files;
-       var description = document.getElementById('description').value;
-       var wordCount = description.trim().split(/\s+/).length;
-
-       if (images.length < 3 || images.length > 10) {
-           alert("You must upload between 3 to 10 images.");
-           return false;
-       }
-
-       if (wordCount > 500) {
-           alert("The description must be less than 500 words.");
-           return false;
-       }
-
-       return true;
-   }
-
-   function countWords() {
-       var description = document.getElementById('description').value;
-       var wordCount = description.trim().split(/\s+/).length;
-       var wordCounter = document.getElementById('wordCounter');
-
-       if (description.length === 0) {
-           wordCounter.innerText = '0 words';
-       } else {
-           wordCounter.innerText = `${wordCount} words`;
-       }
-   }
-
-   document.addEventListener('DOMContentLoaded', countWords);
-</script>
-
-<div class="prompt-response">
-    <h2>Immediate Issues</h2>
-    <p>{{ immediate_issues }}</p>
-    <h2>Immediate Issue Fixes</h2>
-    <p>{{ immediate_issue_fixes }}</p>
-    <h2>Longterm Issues</h2>
-    <p>{{ longterm_issues }}</p>
-    <h2>Longterm Issue Fixes</h2>
-    <p>{{ longterm_issue_fixes }}</p>
-</div>
-
-<!-- ... existing HTML ... -->
-
-<!-- <div class="prompt-response">
-    <h2>Immediate Issues</h2>
-    <p>{{ immediate_issues }}</p>
-    <h2>Immediate Issue Fixes</h2>
-    <p>{{ immediate_issue_fixes }}</p>
-    <h2>Longterm Issues</h2>
-    <p>{{ longterm_issues }}</p>
-    <h2>Longterm Issue Fixes</h2>
-    <p>{{ longterm_issue_fixes }}</p>
-</div> -->
 
 </html>

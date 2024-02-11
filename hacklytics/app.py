@@ -8,7 +8,7 @@ from .forms import LoginForm, RegForm
 
 from flask_executor import Executor
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrateimport threading
+from flask_migrate import Migrate
 import asyncio
 
 from .llm.model import run_inference
@@ -172,6 +172,14 @@ def predict():
     # call to ipsit code
     summary = get_completion_standalone(individual_summaries)
     session['summary'] = summary
+    prompt_response = get_issues_and_fixes(session['summary'])
+
+    solns[(session['claim_id'], current_user.id)] = {'overall_health': prompt_response.overall_health,
+        'immediate_issues': prompt_response.immediate_issues,
+                                          'immediate_issue_fixes': prompt_response.immediate_issue_fixes,
+                                          'longterm_issues': prompt_response.longterm_issues,
+                                          'longterm_issue_fixes': prompt_response.longterm_issue_fixes,
+                                          'top_three_recommendations': prompt_response.top_three_recommendations}
     return jsonify({"message": "Processing prediction..."})
 
 
@@ -199,10 +207,12 @@ def view_claim(claim_id):
     # We need to pass relevant data to this function, like claim description
     prompt_response = get_issues_and_fixes(session['summary'])
 
-    solns[(claim_id, current_user.id)] = {'immediate_issues': prompt_response.immediate_issues,
+    solns[(claim_id, current_user.id)] = {'overall_health': prompt_response.overall_health,
+        'immediate_issues': prompt_response.immediate_issues,
                                           'immediate_issue_fixes': prompt_response.immediate_issue_fixes,
                                           'longterm_issues': prompt_response.longterm_issues,
-                                          'longterm_issue_fixes': prompt_response.longterm_issue_fixes}
+                                          'longterm_issue_fixes': prompt_response.longterm_issue_fixes,
+                                          'top_three_recommendations': prompt_response.top_three_recommendations}
 
     # Now pass the PromptResponse attributes to the template
     return render_template('viewer.html', claim=claim, filenames=filenames,
@@ -219,7 +229,7 @@ def view_claim(claim_id):
 def view_all_claims():
     id = current_user.id
     user_claims = Claim.query.filter_by(user_id=id).all()
-    
+    print(solns)
     return render_template('view_all.html', claims=user_claims, sol=solns, userId=current_user.id)
 
     

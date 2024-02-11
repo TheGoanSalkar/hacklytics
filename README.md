@@ -21,7 +21,9 @@ We created a small dataset from webscraping from new articles about natural cala
 
 ## More on how the model is built
 
-The model is built on  intel dev cloud enviroment. The final model is open-sourced  on hugginggface for public usage. 
+The model is built on  intel dev cloud enviroment. The final model is open-sourced  on hugginggface for public usage. We used the Blip-Image-Captioning-Large as the pre-trained model and fine-tuned on a custom dataset created from the images provided by Assurant. The model was fine-tuned for 10 epochs using AdamW optimizer and
+has been pushed to Huggingface. We then use the Huggingface serverless inference endpoint to use our model.
+The jupyter-notebook that we used for fine-tuning is provided in this repository.
 
 ## Website
 
