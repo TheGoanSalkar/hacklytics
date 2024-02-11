@@ -1,5 +1,10 @@
+import requests
 
+API_URL = "https://api-inference.huggingface.co/models/KrishnaSriIpsitMantri/BlipFineTuneHacklytics2024"
+headers = {"Authorization": "Bearer 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"}
 
-def model_function(text, images):
-    # Ipsit will implement this
-    return 'This house is burning'
+def run_inference(filename):
+    with open(filename, "rb") as f:
+        data = f.read()
+    response = requests.post(API_URL, headers=headers, data=data)
+    return response.json()

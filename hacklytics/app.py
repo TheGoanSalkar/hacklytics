@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
@@ -7,9 +7,11 @@ from .forms import LoginForm, RegForm
 
 from flask_sqlalchemy import SQLAlchemy
 
-from .llm.model import model_function
-from .llm.prompt import get_issues_and_fixes
+
+from .llm.model import run_inference
+from .llm.prompt import get_issues_and_fixes, get_completion_standalone
 from .llm.prompt_response import PromptResponse
+import requests
 
 import os
 
@@ -80,11 +82,11 @@ def allowed_file(filename):
 
 @app.route('/')
 def index():
-    return render_template('index2.html')
+    return render_template('index.html')
 
 @app.route('/home')  # If you decide to add a home route distinct from index
 def home():
-    return render_template('index2.html')  # Assuming you have a home.html template
+    return render_template('index.html')  # Assuming you have a home.html template
 
 @app.route('/claims')
 def claims():
@@ -131,6 +133,15 @@ def submit_claim():
         db.session.commit()
         flash('Claim submitted successfully!', 'success')
 
+        individual_summaries = []
+        for image in new_claim.images:
+            individual_summary = run_inference(image.filename)
+            individual_summaries.append(individual_summary)
+
+
+        # call to ipsit code
+        summary = get_completion_standalone(individual_summaries)
+        
         # Redirect to the view_claim route, passing the new claim's ID
         return redirect(url_for('view_claim', claim_id=new_claim.id))
     
