@@ -1,8 +1,8 @@
 import openai
-from settings import OPENAI_KEY
-from llm.prompt_response import PromptResponse
+from ..settings import OPENAI_KEY
+from .prompt_response import PromptResponse
 from string import Template
-from llm.prompt_constants import FIRE_ANSWER, FIRE_TEXT, PROMPT_MESSAGE
+from .prompt_constants import FIRE_ANSWER, FIRE_TEXT, PROMPT_MESSAGE
 
 prompt_template = Template('''
 $question

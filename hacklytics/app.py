@@ -3,13 +3,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required, UserMixin
-from forms import LoginForm, RegForm
+from .forms import LoginForm, RegForm
 
 from flask_sqlalchemy import SQLAlchemy
 
-from llm.model import model_function
-from llm.prompt import get_issues_and_fixes
-from llm.prompt_response import PromptResponse
+from .llm.model import model_function
+from .llm.prompt import get_issues_and_fixes
+from .llm.prompt_response import PromptResponse
 
 import os
 
@@ -132,9 +132,6 @@ def submit_claim():
         db.session.commit()
         flash('Claim submitted successfully!', 'success')
 
-        # call to ipsit code
-        summary = 
-        
         # Redirect to the view_claim route, passing the new claim's ID
         return redirect(url_for('view_claim', claim_id=new_claim.id))
     
@@ -200,4 +197,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
- 
