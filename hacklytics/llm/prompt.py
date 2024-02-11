@@ -60,6 +60,7 @@ def get_completion_standalone(text):
     customer_query = ""
 
     for line in text:
+        print(line)
         customer_query += line + "\n"
 
     messages = [

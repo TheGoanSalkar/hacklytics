@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, jsonify
+from flask import Flask, request, render_template, redirect, url_for, flash, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
@@ -133,14 +133,15 @@ def submit_claim():
         db.session.commit()
         flash('Claim submitted successfully!', 'success')
 
-        individual_summaries = []
+        individual_summaries = [new_claim.description]
         for image in new_claim.images:
-            individual_summary = run_inference(image.filename)
+            individual_summary = run_inference(os.path.join(UPLOAD_FOLDER, image.filename))
             individual_summaries.append(individual_summary)
 
 
         # call to ipsit code
         summary = get_completion_standalone(individual_summaries)
+        session['summary'] = summary
         
         # Redirect to the view_claim route, passing the new claim's ID
         return redirect(url_for('view_claim', claim_id=new_claim.id))
@@ -160,10 +161,19 @@ def view_claim(claim_id):
 
     images = Image.query.filter_by(claim_id=claim.id).all()
     filenames = [image.filename for image in images]
-    return render_template('viewer.html', claim=claim, filenames=filenames)
 
+    # Here we need to create a PromptResponse instance
+    # For the sake of example, let's assume you have a function in the llm module
+    # that processes claims and returns a PromptResponse object
+    # We need to pass relevant data to this function, like claim description
+    prompt_response = get_issues_and_fixes(session['summary'])
 
-
+    # Now pass the PromptResponse attributes to the template
+    return render_template('viewer.html', claim=claim, filenames=filenames,
+                           immediate_issues=prompt_response.immediate_issues,
+                           immediate_issue_fixes=prompt_response.immediate_issue_fixes,
+                           longterm_issues=prompt_response.longterm_issues,
+                           longterm_issue_fixes=prompt_response.longterm_issue_fixes)
 
 
     

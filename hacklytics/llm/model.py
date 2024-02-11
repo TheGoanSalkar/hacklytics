@@ -7,4 +7,4 @@ def run_inference(filename):
     with open(filename, "rb") as f:
         data = f.read()
     response = requests.post(API_URL, headers=headers, data=data)
-    return response.json()
+    return response.json()[0]['generated_text']
