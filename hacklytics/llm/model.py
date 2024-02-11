@@ -17,4 +17,5 @@ def run_inference(filename):
             tries += 1
             sleep(1)
     response = requests.post(API_URL, headers=headers, data=data)
+    print(response.json())
     return response.json()[0]['generated_text']

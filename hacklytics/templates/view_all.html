@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claim Submission Viewer</title>
+    <title>All Claims Made By Viewer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -110,37 +110,40 @@
         <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
     </div>
     <div class="container">
-        <h1>Claim Submission Details</h1>
-        <p><b>Policy Number:</b> {{ claim.policy_number }}</p>
-        <p><b>Description of Damage:</b> {{ claim.description }}</p>
-        <h2>Uploaded Images</h2>
-        {% if filenames %}
-            {% for filename in filenames %}
-                <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="Uploaded Image" style="width: 200px;">
-            {% endfor %}
-        {% else %}
-            <p>No images uploaded.</p>
-        {% endif %}
-
-        <details>
-            <summary>Immediate Issues</summary>
-            <p>{{ immediate_issues }}</p>
-        </details>
-        
-        <details>
-            <summary>Immediate Issue Fixes</summary>
-            <p>{{ immediate_issue_fixes }}</p>
-        </details>
-        
-        <details>
-            <summary>Longterm Issues</summary>
-            <p>{{ longterm_issues }}</p>
-        </details>
-        
-        <details>
-            <summary>Longterm Issue Fixes</summary>
-            <p>{{ longterm_issue_fixes }}</p>
-        </details>
+        <h1>All Claims Made By User</h1>
+            <ul>
+                {% for claim in claims %}
+                    <li>
+                        <strong>Policy Number:</strong> {{ claim.policy_number }}<br>
+                        <strong>Description:</strong> {{ claim.description }}<br>
+                        <strong>Images:</strong>
+                        {% for image in claim.images %}
+                            <img src="{{ url_for('static', filename='uploads/' + image.filename) }}" alt="Uploaded Image" style="width: 200px;">
+                        {% endfor %}
+                        <details>
+                            <summary>Immediate Issues</summary>
+                            <p>{{ sol[(claim.id, userId)]['immediate_issues'] }}</p>
+                        </details>
+                        
+                        <details>
+                            <summary>Immediate Issue Fixes</summary>
+                            <p>{{ sol[(claim.id, userId)]['immediate_issue_fixes'] }}</p>
+                        </details>
+                        
+                        <details>
+                            <summary>Longterm Issues</summary>
+                            <p>{{ sol[(claim.id, userId)]['longterm_issues'] }}</p>
+                        </details>
+                        
+                        <details>
+                            <summary>Longterm Issue Fixes</summary>
+                            <p>{{ sol[(claim.id, userId)]['longterm_issue_fixes'] }}</p>
+                        </details>
+                    </li>
+                {% else %}
+                    <li>No claims found.</li>
+                {% endfor %}
+            </ul>
     </div>
 </body>
 </html>

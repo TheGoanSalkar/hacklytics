@@ -82,6 +82,12 @@
 </head>
 
 <body>
+    <div class="navbar">
+        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+    </div>
     {% if current_user.is_authenticated %}
         <div class="container">
             <h1>Submit Your Claim</h1>

@@ -6,7 +6,7 @@ from flask_login import LoginManager, login_user, current_user, logout_user, log
 from .forms import LoginForm, RegForm
 
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_migrate import Migrate
 
 from .llm.model import run_inference
 from .llm.prompt import get_issues_and_fixes, get_completion_standalone
@@ -17,9 +17,9 @@ from time import sleep
 
 import os
 
+solns = {}
 
-
-app = Flask(__name__)
+application = app = Flask(__name__)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # Set the login view
 app.config['SECRET_KEY'] = '32659db159db1a52cd39b981b2f56a22'
@@ -27,7 +27,7 @@ app.config['SECRET_KEY'] = '32659db159db1a52cd39b981b2f56a22'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///init_db.sql'
 db = SQLAlchemy(app)
 
-
+#migrate = Migrate(app, db)
 
 class Claim(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -119,7 +119,6 @@ def submit_claim():
         files = request.files.getlist('images')
         description = request.form['description']
         
-
         new_claim = Claim(policy_number=policy_number, description=description, user_id=current_user.id)
         db.session.add(new_claim)
 
@@ -131,7 +130,7 @@ def submit_claim():
 
                 new_image = Image(filename=filename, claim=new_claim)
                 db.session.add(new_image)
-        # After saving the claim and its images...
+      
         db.session.commit()
         flash('Claim submitted successfully!', 'success')
 
@@ -142,10 +141,9 @@ def submit_claim():
         #     individual_summary = run_inference(os.path.join(UPLOAD_FOLDER, image.filename))
         #     individual_summaries.append(individual_summary)
 
-
-        # # call to ipsit code
-        # summary = get_completion_standalone(individual_summaries)
-        # session['summary'] = summary
+        # call to ipsit code
+        summary = get_completion_standalone(individual_summaries)
+        session['summary'] = summary
         session['description'] = new_claim.description
         session['image_file_names'] = [image.filename for image in new_claim.images]
         session['claim_id'] = new_claim.id
@@ -197,6 +195,11 @@ def view_claim(claim_id):
     # We need to pass relevant data to this function, like claim description
     prompt_response = get_issues_and_fixes(session['summary'])
 
+    solns[(claim_id, current_user.id)] = {'immediate_issues': prompt_response.immediate_issues,
+                                          'immediate_issue_fixes': prompt_response.immediate_issue_fixes,
+                                          'longterm_issues': prompt_response.longterm_issues,
+                                          'longterm_issue_fixes': prompt_response.longterm_issue_fixes}
+
     # Now pass the PromptResponse attributes to the template
     return render_template('viewer.html', claim=claim, filenames=filenames,
                            immediate_issues=prompt_response.immediate_issues,
@@ -204,6 +207,14 @@ def view_claim(claim_id):
                            longterm_issues=prompt_response.longterm_issues,
                            longterm_issue_fixes=prompt_response.longterm_issue_fixes)
 
+
+@app.route('/view-all-claims')
+@login_required
+def view_all_claims():
+    id = current_user.id
+    user_claims = Claim.query.filter_by(user_id=id).all()
+    
+    return render_template('view_all.html', claims=user_claims, sol=solns, userId=current_user.id)
 
     
 @app.route('/login', methods=['GET', 'POST'])
