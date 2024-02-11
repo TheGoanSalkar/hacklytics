@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Page</title>
+</head>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    .navbar {
+        background-color: #004880;
+        padding: 10px 0;
+        color: white;
+        text-align: center;
+    }
+    .nav-button {
+        background: none;
+        border: 1px solid white;
+        color: white;
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 18px;
+        text-decoration: none;
+        display: inline-block;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+    .nav-button:hover {
+        background-color: white;
+        color: #004880;
+        border-color: #004880;
+    }
+    .container {
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+        background-color: white;
+    }
+    h1, h2, h3 {
+        color: #004880;
+    }
+    p, ul, li {
+        color: #666;
+        line-height: 1.6;
+    }
+    ul {
+        margin-left: 20px;
+    }
+    li {
+        margin-bottom: 10px;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    label {
+        margin-top: 10px;
+    }
+    input, textarea {
+        margin-top: 5px;
+        padding: 10px;
+        font-size: 16px;
+    }
+    input[type="submit"] {
+        background-color: #008000;
+        color: white;
+        border: none;
+        padding: 10px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover {
+        background-color: #005700;
+    }
+</style>
+
+<body>
+    <h2>Welcome, {{ current_user.username }}</h2>
+    <p>This is the member page.</p>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>

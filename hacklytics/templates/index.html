@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Claim Prototype</title>
+    <style>
+        /* CSS styles */
+        .nav-button {
+    background: none;
+    border: 1px solid white; /* Optional: adds a border to the button */
+    color: white;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 18px;
+    text-decoration: none; /* Removes the underline from links */
+    display: inline-block; /* Allows padding and width to be set */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition for hover effects */
+}
+
+.nav-button:hover {
+    background-color: white; /* Changes background color on hover */
+    color: #004880; /* Changes text color on hover */
+    border-color: #004880; /* Changes border color on hover */
+}
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #004880;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+        }
+        .navbar button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+        }
+        h1 {
+            color: #004880;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, textarea {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #008000;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #005700;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <!-- Navigation buttons -->
+
+       
+            <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+            <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+            <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+            <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+        </div>
+    
+    <div class="container">
+        <h1>                PropertyManager.ai</h1>
+
+        <head>
+            <!-- Required meta tags -->
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Flask Auth Repo</title>
+        </head>
+        <body style="background: beige; min-height: 100vh">
+            {% include "includes/_navbar.html" %}
+            <center>
+                <div class="column is-4">
+                    {% include "includes/_notifs.html" %}
+                </div>
+            </center>
+            <div class="container-fluid">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </body>
+    </div>
+
+    <script>
+         function validateForm() {
+            var images = document.getElementById('images').files;
+            var description = document.getElementById('description').value;
+            var wordCount = description.trim().split(/\s+/).length;
+
+            if (images.length < 3 || images.length > 10) {
+                alert("You must upload between 3 to 10 images.");
+                return false;
+            }
+
+            if (wordCount > 500) {
+                alert("The description must be less than 500 words.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function countWords() {
+            var description = document.getElementById('description').value;
+            var wordCount = description.trim().split(/\s+/).length;
+            var wordCounter = document.getElementById('wordCounter');
+
+            if (description.length === 0) {
+                wordCounter.innerText = '0 words';
+            } else {
+                wordCounter.innerText = `${wordCount} words`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', countWords);
+    </script>
+</body>
+</html>

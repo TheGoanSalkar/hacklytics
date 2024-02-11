@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Existing CSS styles from your homepage */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+        }
+        input, textarea {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #008000;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #005700;
+        }
+        /* Additional styles for login form */
+        h2 {
+            color: #004880;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+    </div>
+    <div class="container">
+        <h2>Login</h2>
+        <form method="POST" action="{{ url_for('login') }}"> <!-- Ensure action points to your login route -->
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.email.label }} {{ form.email(size=32) }}
+            </div>
+            <div>
+                {{ form.password.label }} {{ form.password(size=32) }}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+</body>
+</html>

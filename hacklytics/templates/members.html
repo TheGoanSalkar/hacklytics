@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #004880;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+        }
+        .nav-button {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: white;
+            color: #004880;
+            border-color: #004880;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+        }
+        h1, h2, h3 {
+            color: #004880;
+        }
+        p, ul, li, a {
+            color: #666;
+            line-height: 1.6;
+            text-decoration: none;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        form, .button-link {
+            display: inline-flex; /* Align form and link horizontally */
+            margin-top: 20px;
+        }
+        input, textarea, .button-link {
+            margin-top: 5px;
+            padding: 10px 20px; /* Ensure consistent padding */
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"], .button-link {
+            background-color: #008000;
+            color: white;
+            text-decoration: none;
+            display: inline-block; /* Align buttons next to each other */
+        }
+        input[type="submit"]:hover, .button-link:hover {
+            background-color: #005700;
+        }
+        .button-link {
+            border: none;
+            outline: none;
+            text-align: center;
+            line-height: normal; /* Adjust line height if needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+    </div>
+
+    <div class="container">
+        <h2>Welcome, {{ current_user.username }}</h2>
+        <p>This is the member page. Here you can manage your account and claims.</p>
+        <p>Email: {{ current_user.email }}</p>
+
+        <div>
+            <!-- Button-styled Link -->
+            <a href="{{ url_for('submit_claim') }}" class="button-link">Submit a New Claim</a>
+            <!-- Button-styled Link for Viewing All Claims -->
+            <a href="{{ url_for('view_all_claims') }}" class="button-link">View All Claims</a>
+            <!-- Logout Form -->
+            <a href="{{ url_for('logout') }}" class="button-link">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
