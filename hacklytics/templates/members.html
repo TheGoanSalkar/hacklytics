@@ -81,7 +81,6 @@
 </head>
 <body>
     <div class="navbar">
-        <!-- Navigation buttons -->
 
        
             <a href="{{ url_for('index') }}" class="nav-button">Home</a>
@@ -93,24 +92,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Member Page</title>
 </head>
 <body>
-    <h2>Sign Up</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.username.label }} {{ form.username(size=32) }}
-        </div>
-        <div>
-            {{ form.email.label }} {{ form.email(size=32) }}
-        </div>
-        <div>
-            {{ form.password.label }} {{ form.password(size=32) }}
-        </div>
-        <div>
-            {{ form.submit() }}
-        </div>
+    <h2>Welcome, {{ current_user.username }}</h2>
+    <p>This is the member page. Here you can manage your account and claims.</p>
+
+    <!-- Profile Information -->
+    <p>Email: {{ current_user.email }}</p>
+
+    <!-- Navigation Links -->
+    <a href="{{ url_for('submit_claim') }}">Submit a New Claim</a><br>
+    <a href="{{ url_for('logout') }}" method="post">Logout</a>
+
+    <!-- Enhance this part with a CSRF token for security -->
+    <form action="{{ url_for('logout') }}" method="post">
+        <input type="submit" value="Logout">
     </form>
 </body>
 </html>
