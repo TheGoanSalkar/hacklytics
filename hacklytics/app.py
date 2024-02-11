@@ -145,6 +145,7 @@ def submit_claim():
 @app.route('/view-claim/<int:claim_id>')
 @login_required
 def view_claim(claim_id):
+    # new comment
     claim = Claim.query.get_or_404(claim_id)
     if claim.user_id != current_user.id:
         flash('Unauthorized to view this claim.', 'danger')
