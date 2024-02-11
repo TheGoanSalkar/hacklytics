@@ -13,6 +13,8 @@ from .llm.prompt import get_issues_and_fixes, get_completion_standalone
 from .llm.prompt_response import PromptResponse
 import requests
 
+from time import sleep
+
 import os
 
 
@@ -133,22 +135,49 @@ def submit_claim():
         db.session.commit()
         flash('Claim submitted successfully!', 'success')
 
-        individual_summaries = [new_claim.description]
-        for image in new_claim.images:
-            individual_summary = run_inference(os.path.join(UPLOAD_FOLDER, image.filename))
-            individual_summaries.append(individual_summary)
+        # sleep(3)
+
+        # individual_summaries = [new_claim.description]
+        # for image in new_claim.images:
+        #     individual_summary = run_inference(os.path.join(UPLOAD_FOLDER, image.filename))
+        #     individual_summaries.append(individual_summary)
 
 
-        # call to ipsit code
-        summary = get_completion_standalone(individual_summaries)
-        session['summary'] = summary
+        # # call to ipsit code
+        # summary = get_completion_standalone(individual_summaries)
+        # session['summary'] = summary
+        session['description'] = new_claim.description
+        session['image_file_names'] = [image.filename for image in new_claim.images]
+        session['claim_id'] = new_claim.id
+        return render_template('loading.html')
         
         # Redirect to the view_claim route, passing the new claim's ID
-        return redirect(url_for('view_claim', claim_id=new_claim.id))
+        #return redirect(url_for('view_claim', claim_id=new_claim.id))
     
     # If it's a GET request, just render the submit claim form
     return render_template('submit_claim.html')
 
+@app.route('/predict')
+@login_required
+def predict():
+    description = session['description']
+    image_file_names = session['image_file_names']
+    individual_summaries = [description]
+    for image_file_name in image_file_names:
+        individual_summary = run_inference(os.path.join(UPLOAD_FOLDER, image_file_name))
+        individual_summaries.append(individual_summary)
+
+    # call to ipsit code
+    summary = get_completion_standalone(individual_summaries)
+    session['summary'] = summary
+    return jsonify({"message": "Processing prediction..."})
+
+
+@app.route('/view-claim')
+@login_required
+def view_claim_no_id():
+    claim_id = session['claim_id']
+    return view_claim(claim_id)
 
 @app.route('/view-claim/<int:claim_id>')
 @login_required
