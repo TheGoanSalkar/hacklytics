@@ -1,0 +1,7 @@
+.DS_Store
+hacklytics/__pycache__/__init__.cpython-311.pyc
+hacklytics/__pycache__/forms.cpython-311.pyc
+hacklytics/__pycache__/settings.cpython-311.pyc
+hacklytics/llm/__pycache__/
+imgs/
+try.ipynb

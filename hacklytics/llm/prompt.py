@@ -32,9 +32,8 @@ def construct_prompt(text):
     return prompt
 
 def make_api_call(prompt):
-    openai.api_key = OPENAI_KEY
-    response = openai.chat.completions.create(
-        model='gpt-3.5-turbo',
+    response = client.chat.completions.create(
+        model='gpt-4',
         messages=[{'role':'user', 'content':prompt}]
     )
     return response.choices[0].message.content.strip()
@@ -55,3 +54,32 @@ def get_issues_and_fixes(text):
     prompt = construct_prompt(text)
     response = make_api_call(prompt)
     return create_prompt_response(response)
+
+def get_completion_standalone(text):
+
+    customer_query = ""
+
+    for line in text:
+        customer_query += line + "\n"
+
+    messages = [
+        {
+            "role": "system",
+            "content": """You are an assistant for a home insurance company. You are tasked with assisting your boss in resonponding to a customer's query. The customer has recently experienced a disaster 
+            and has provided you what all has happened in the form of few sentences. You should summarize the customer's query in detail and explain it to your boss.
+            
+            """
+        },
+        {
+            "role": "user",
+            "content": f"""Here is the customer query: {customer_query}"""
+        }
+    ]
+
+    response = client.chat.completions.create(
+        model='gpt-4',
+        messages=messages,
+        temperature=0
+    )
+
+    return response.choices[0].message.content.strip()
