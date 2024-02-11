@@ -7,6 +7,10 @@ from forms import LoginForm, RegForm
 
 from flask_sqlalchemy import SQLAlchemy
 
+from llm.model import model_function
+from llm.prompt import get_issues_and_fixes
+from llm.prompt_response import PromptResponse
+
 import os
 
 
@@ -127,6 +131,9 @@ def submit_claim():
         # After saving the claim and its images...
         db.session.commit()
         flash('Claim submitted successfully!', 'success')
+
+        # call to ipsit code
+        summary = 
         
         # Redirect to the view_claim route, passing the new claim's ID
         return redirect(url_for('view_claim', claim_id=new_claim.id))
