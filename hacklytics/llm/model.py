@@ -1,5 +1,8 @@
 import requests
 from time import sleep
+import asyncio
+import httpx
+
 
 API_URL = "https://api-inference.huggingface.co/models/KrishnaSriIpsitMantri/BlipFineTuneHacklytics2024"
 headers = {"Authorization": "Bearer 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"}

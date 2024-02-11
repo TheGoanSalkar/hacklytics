@@ -95,36 +95,88 @@
         </div>
 
     <style>
-        body {
+   body {
             font-family: Arial, sans-serif;
-            padding: 20px;
             background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #004880;
+            padding: 10px 0;
+            color: white;
+            text-align: center;
+        }
+        .nav-button {
+            background: none;
+            border: 1px solid white;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 18px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: white;
+            color: #004880;
+            border-color: #004880;
         }
         .container {
+            padding: 20px;
             max-width: 800px;
             margin: auto;
             background-color: white;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        h2 {
+        h1, h2, h3 {
             color: #004880;
         }
-        h3 {
-            color: #372546;
-        }
-        p, ul {
+        p, ul, li {
+            color: #666;
             line-height: 1.6;
         }
-        .policy {
-            margin-bottom: 20px;
-            background-color: #eaeaea;
-            padding: 15px;
-            border-radius: 5px;
+        ul {
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, textarea {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #008000;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #005700;
         }
     </style>
 </head>
 <body>
+    <div class="navbar">
+
+       
+        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+    </div>
+
     <div class="container">
         <h2>Heritage Home Insurance Policies</h2>
 

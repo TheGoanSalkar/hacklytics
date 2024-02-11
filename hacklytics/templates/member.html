@@ -80,6 +80,14 @@
 </style>
 
 <body>
+    <div class="navbar">
+
+       
+        <a href="{{ url_for('index') }}" class="nav-button">Home</a>
+        <a href="{{ url_for('claims') }}" class="nav-button">Claims</a>
+        <a href="{{ url_for('policy') }}" class="nav-button">Policy</a>
+        <a href="{{ url_for('contact') }}" class="nav-button">Contact</a>
+    </div>
     <h2>Welcome, {{ current_user.username }}</h2>
     <p>This is the member page.</p>
     <a href="{{ url_for('logout') }}">Logout</a>

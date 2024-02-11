@@ -103,5 +103,31 @@
             <a href="{{ url_for('logout') }}" class="button-link">Logout</a>
         </div>
     </div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Page</title>
+</head>
+<body>
+    <h2>Welcome, {{ current_user.username }}</h2>
+    <p>This is the member page. Here you can manage your account and claims.</p>
+
+    <!-- Profile Information -->
+    <p>Email: {{ current_user.email }}</p>
+
+    <!-- Navigation Links -->
+    <a href="{{ url_for('submit_claim') }}">Submit a New Claim</a><br>
+    <a href="{{ url_for('logout') }}" method="post">Logout</a>
+
+        <div>
+            <!-- Button-styled Link -->
+            <a href="{{ url_for('submit_claim') }}" class="button-link">Submit a New Claim</a>
+            <!-- Button-styled Link for Viewing All Claims -->
+            <a href="{{ url_for('view_all_claims') }}" class="button-link">View All Claims</a>
+            <!-- Logout Form -->
+            <a href="{{ url_for('logout') }}" class="button-link">Logout</a>
+        </div>
+    </div>
 </body>
 </html>

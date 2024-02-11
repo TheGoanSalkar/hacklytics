@@ -1,12 +1,15 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, jsonify, session
+from flask import Flask, request, render_template, redirect, url_for, flash, jsonify, session, copy_current_request_context
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required, UserMixin
 from .forms import LoginForm, RegForm
 
+
+from flask_executor import Executor
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from flask_migrate import Migrateimport threading
+import asyncio
 
 from .llm.model import run_inference
 from .llm.prompt import get_issues_and_fixes, get_completion_standalone
@@ -27,6 +30,7 @@ app.config['SECRET_KEY'] = '32659db159db1a52cd39b981b2f56a22'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///init_db.sql'
 db = SQLAlchemy(app)
 
+executor = Executor(app)
 #migrate = Migrate(app, db)
 
 class Claim(db.Model):
@@ -134,7 +138,7 @@ def submit_claim():
         db.session.commit()
         flash('Claim submitted successfully!', 'success')
 
-        # sleep(3)
+        individual_summaries = [new_claim.description]
 
         # individual_summaries = [new_claim.description]
         # for image in new_claim.images:
@@ -202,10 +206,12 @@ def view_claim(claim_id):
 
     # Now pass the PromptResponse attributes to the template
     return render_template('viewer.html', claim=claim, filenames=filenames,
+                           overall_health=prompt_response.overall_health,
                            immediate_issues=prompt_response.immediate_issues,
                            immediate_issue_fixes=prompt_response.immediate_issue_fixes,
                            longterm_issues=prompt_response.longterm_issues,
-                           longterm_issue_fixes=prompt_response.longterm_issue_fixes)
+                           longterm_issue_fixes=prompt_response.longterm_issue_fixes,
+                           top_three_recommendations=prompt_response.top_three_recommendations)
 
 
 @app.route('/view-all-claims')
@@ -227,8 +233,10 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user)
             flash('Login successful!', 'success')
+            print('Login successful')
             return redirect(url_for('submit_claim'))  # Redirect to submit claim form
         else:
+            print('Invalid email or password')
             flash('Invalid email or password. Please try again.', 'danger')
     return render_template('login.html', form=form)
 
@@ -245,6 +253,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash('Congratulations, you are now a registered user!', 'success')
+        print('User created successfully')
         return redirect(url_for('login'))
     return render_template('signup.html', title='Sign Up', form=form)
 
