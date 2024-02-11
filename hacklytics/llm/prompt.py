@@ -1,17 +1,8 @@
 import openai
-<<<<<<< HEAD
 from ..settings import OPENAI_KEY
 from .prompt_response import PromptResponse
 from string import Template
 from .prompt_constants import FIRE_ANSWER, FIRE_TEXT, PROMPT_MESSAGE
-=======
-from ..settings import client
-from .prompt_response import PromptResponse
-from string import Template
-from .prompt_constants import FIRE_ANSWER, FIRE_TEXT, PROMPT_MESSAGE
-
-
->>>>>>> 3a9f569 (Added model inference)
 
 prompt_template = Template('''
 $question
